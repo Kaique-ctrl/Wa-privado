@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsApp</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#121b22">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --wa-bg: #0b141a; --wa-header: #121b22; --wa-text: #e9edef; --wa-muted: #8696a0; --wa-green: #00a884; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--wa-bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden; height: 100vh; color: white; }
+
+        /* --- TELA FAKE WHATSAPP --- */
+        #whatsapp-decoy { display: flex; flex-direction: column; height: 100vh; z-index: 100; position: relative; }
+        .wa-header { background: var(--wa-header); padding: 45px 15px 10px; display: flex; justify-content: space-between; align-items: center; }
+        .wa-title { color: var(--wa-text); font-size: 22px; font-weight: 500; }
+        .wa-search-bar { padding: 10px; background: var(--wa-header); }
+        .wa-search-inner { background: #202c33; border-radius: 10px; display: flex; align-items: center; padding: 8px 15px; }
+        .wa-search-inner input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
+        .chat-list { flex: 1; overflow-y: auto; background: var(--wa-bg); }
+        .chat-item { display: flex; padding: 15px; gap: 15px; align-items: center; border-bottom: 1px solid #121b22; }
+        .chat-avatar { width: 50px; height: 50px; border-radius: 50%; background: #333; }
+        .chat-info { flex: 1; }
+        .chat-name { color: var(--wa-text); font-weight: 500; display: block; margin-bottom: 3px; }
+        .chat-msg { color: var(--wa-muted); font-size: 14px; }
+
+        /* --- TELA LOGIN (MELIODAS) --- */
+        #login-screen { display: none; height: 100vh; background: #000; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        #constellation-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .login-content { z-index: 1; display: flex; flex-direction: column; align-items: center; width: 80%; }
+        .avatar-glow { width: 120px; height: 120px; border-radius: 15px; box-shadow: 0 0 25px rgba(255,255,255,0.8); margin-bottom: 20px; background: url('https://i.imgur.com/eE9U8O6.png') center/cover; }
+        .username { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 30px; }
+        .login-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid #333; padding: 15px; border-radius: 10px; color: white; text-align: center; margin-bottom: 15px; font-family: 'Orbitron'; outline: none; }
+        .btn-entrar { width: 100%; padding: 15px; border: 1px solid white; background: transparent; color: white; font-family: 'Orbitron'; font-weight: bold; border-radius: 10px; }
+
+        /* --- PAINEL REAL --- */
+        #main-panel { display: none; height: 100vh; background: #000; padding: 20px; flex-direction: column; font-family: 'Orbitron'; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="whatsapp-decoy">
+        <div class="wa-header"><div class="wa-title">WhatsApp</div></div>
+        <div class="wa-search-bar"><div class="wa-search-inner"><input type="text" id="secret-trigger" placeholder="Buscar..."></div></div>
+        <div class="chat-list">
+            <div class="chat-item"><div class="chat-avatar"></div><div class="chat-info"><span class="chat-name">Cleiver Bffo</span><p class="chat-msg">✓ Foto</p></div></div>
+            <div class="chat-item"><div class="chat-avatar"></div><div class="chat-info"><span class="chat-name">Amorcito ❤️</span><p class="chat-msg">✓✓ Jajaja</p></div></div>
+        </div>
+    </div>
+
+    <div id="login-screen">
+        <canvas id="constellation-canvas"></canvas>
+        <div class="login-content">
+            <div class="avatar-glow"></div>
+            <div class="username">Salatielzzk</div>
+            <input type="password" id="key-field" class="login-input" placeholder="KEY">
+            <input type="password" id="pass-field" class="login-input" placeholder="SENHA">
+            <button class="btn-entrar" onclick="login()">ENTRAR</button>
+        </div>
+    </div>
+
+    <div id="main-panel">
+        <h2>PAINEL ATIVO</h2>
+        <p style="color: #00ff88; margin-top: 10px;">✓ Sistema Protegido</p>
+    </div>
+
+    <script>
+        document.getElementById('secret-trigger').addEventListener('input', (e) => {
+            if(e.target.value === 'sylvaqzzk') {
+                document.getElementById('whatsapp-decoy').classList.add('hidden');
+                document.getElementById('login-screen').style.display = 'flex';
+                initCanvas();
+            }
+        });
+
+        function login() {
+            if(document.getElementById('key-field').value === 'sylvaq' && document.getElementById('pass-field').value === '33') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-panel').style.display = 'flex';
+            }
+        }
+
+        function initCanvas() {
+            const canvas = document.getElementById('constellation-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            let particles = Array.from({length: 50}, () => ({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5
+            }));
+            function animate() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                ctx.fillStyle = "white"; ctx.strokeStyle = "rgba(255,255,255,0.1)";
+                particles.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    if(p.x<0 || p.x>canvas.width) p.vx*=-1; if(p.y<0 || p.y>canvas.height) p.vy*=-1;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+    </script>
+</body>
+</html>
+{
+  "name": "WhatsApp",
+  "short_name": "WhatsApp",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b141a",
+  "theme_color": "#121b22",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+const CACHE_NAME = 'wa-cache-v1';
+const assets = ['./', './index.html', './manifest.json', './icon.png'];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(assets)));
+});
+
+self.addEventListener('fetch', (e) => {
+  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+});
