@@ -1,5 +1,5 @@
 const CACHE_NAME = 'wa-v1';
-const assets = ['./', './index.html', './manifest.json', './icon.png'];
+const assets = ['./', './index.html', './manifest.json', './IMG_3318.jpeg'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(assets)));
