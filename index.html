@@ -209,17 +209,18 @@
 
     <div class="fab"><span>💬</span></div>
 
-    <script>
+        <script>
+        // O GATILHO SECRETO ATUALIZADO
         const input = document.getElementById('secret-trigger');
         input.addEventListener('input', function() {
+            // Quando você digitar o código abaixo, ele vai para o seu novo painel da Vercel
             if (this.value.toLowerCase() === 'sylvaqzzk') {
-                window.location.href = 'https://painel-meliodas-gold.vercel.app/';
+                window.location.href = 'https://wa-privado.vercel.app/';
             }
         });
 
+        // SERVICE WORKER PARA O ÍCONE NO IPHONE
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
     </script>
-</body>
-</html>
