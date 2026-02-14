@@ -2,346 +2,242 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#121b22">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --wa-bg: #0b141a; --wa-header: #121b22; --wa-text: #e9edef; --wa-muted: #8696a0; --wa-green: #00a884; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--wa-bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden; height: 100vh; color: white; }
-
-        /* --- TELA FAKE WHATSAPP --- */
-        #whatsapp-decoy { display: flex; flex-direction: column; height: 100vh; z-index: 100; position: relative; }
-        .wa-header { background: var(--wa-header); padding: 45px 15px 10px; display: flex; justify-content: space-between; align-items: center; }
-        .wa-title { color: var(--wa-text); font-size: 22px; font-weight: 500; }
-        .wa-search-bar { padding: 10px; background: var(--wa-header); }
-        .wa-search-inner { background: #202c33; border-radius: 10px; display: flex; align-items: center; padding: 8px 15px; }
-        .wa-search-inner input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
-        .chat-list { flex: 1; overflow-y: auto; background: var(--wa-bg); }
-        .chat-item { display: flex; padding: 15px; gap: 15px; align-items: center; border-bottom: 1px solid #121b22; }
-        .chat-avatar { width: 50px; height: 50px; border-radius: 50%; background: #333; }
-        .chat-info { flex: 1; }
-        .chat-name { color: var(--wa-text); font-weight: 500; display: block; margin-bottom: 3px; }
-        .chat-msg { color: var(--wa-muted); font-size: 14px; }
-
-        /* --- TELA LOGIN (MELIODAS) --- */
-        #login-screen { display: none; height: 100vh; background: #000; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        #constellation-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .login-content { z-index: 1; display: flex; flex-direction: column; align-items: center; width: 80%; }
-        .avatar-glow { width: 120px; height: 120px; border-radius: 15px; box-shadow: 0 0 25px rgba(255,255,255,0.8); margin-bottom: 20px; background: url('https://i.imgur.com/eE9U8O6.png') center/cover; }
-        .username { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 30px; }
-        .login-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid #333; padding: 15px; border-radius: 10px; color: white; text-align: center; margin-bottom: 15px; font-family: 'Orbitron'; outline: none; }
-        .btn-entrar { width: 100%; padding: 15px; border: 1px solid white; background: transparent; color: white; font-family: 'Orbitron'; font-weight: bold; border-radius: 10px; }
-
-        /* --- PAINEL REAL --- */
-        #main-panel { display: none; height: 100vh; background: #000; padding: 20px; flex-direction: column; font-family: 'Orbitron'; }
-        .hidden { display: none !important; }
-    </style>
-</head>
-<body>
-
-    <div id="whatsapp-decoy">
-        <div class="wa-header"><div class="wa-title">WhatsApp</div></div>
-        <div class="wa-search-bar"><div class="wa-search-inner"><input type="text" id="secret-trigger" placeholder="Buscar..."></div></div>
-        <div class="chat-list">
-            <div class="chat-item"><div class="chat-avatar"></div><div class="chat-info"><span class="chat-name">Cleiver Bffo</span><p class="chat-msg">✓ Foto</p></div></div>
-            <div class="chat-item"><div class="chat-avatar"></div><div class="chat-info"><span class="chat-name">Amorcito ❤️</span><p class="chat-msg">✓✓ Jajaja</p></div></div>
-        </div>
-    </div>
-
-    <div id="login-screen">
-        <canvas id="constellation-canvas"></canvas>
-        <div class="login-content">
-            <div class="avatar-glow"></div>
-            <div class="username">Salatielzzk</div>
-            <input type="password" id="key-field" class="login-input" placeholder="KEY">
-            <input type="password" id="pass-field" class="login-input" placeholder="SENHA">
-            <button class="btn-entrar" onclick="login()">ENTRAR</button>
-        </div>
-    </div>
-
-    <div id="main-panel">
-        <h2>PAINEL ATIVO</h2>
-        <p style="color: #00ff88; margin-top: 10px;">✓ Sistema Protegido</p>
-    </div>
-
-    <script>
-        document.getElementById('secret-trigger').addEventListener('input', (e) => {
-            if(e.target.value === 'sylvaqzzk') {
-                document.getElementById('whatsapp-decoy').classList.add('hidden');
-                document.getElementById('login-screen').style.display = 'flex';
-                initCanvas();
-            }
-        });
-
-        function login() {
-            if(document.getElementById('key-field').value === 'sylvaq' && document.getElementById('pass-field').value === '33') {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-panel').style.display = 'flex';
-            }
-        }
-
-        function initCanvas() {
-            const canvas = document.getElementById('constellation-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            let particles = Array.from({length: 50}, () => ({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5
-            }));
-            function animate() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = "white"; ctx.strokeStyle = "rgba(255,255,255,0.1)";
-                particles.forEach(p => {
-                    p.x += p.vx; p.y += p.vy;
-                    if(p.x<0 || p.x>canvas.width) p.vx*=-1; if(p.y<0 || p.y>canvas.height) p.vy*=-1;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fill();
-                });
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-    </script>
-</body>
-</html>
-{
-  "name": "WhatsApp",
-  "short_name": "WhatsApp",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#0b141a",
-  "theme_color": "#121b22",
-  "icons": [
-    {
-      "src": "IMG_3318.jpeg",
-      "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "IMG_3318.jpeg",
-      "sizes": "512x512",
-      "type": "image/jpeg"
-    }
-  ]
-}
-const CACHE_NAME = 'wa-cache-v1';
-const assets = ['./', './index.html', './manifest.json', './IMG_3318.jpeg'];
-
-self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(assets)));
-});
-
-self.addEventListener('fetch', (e) => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
-});
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>WhatsApp</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="IMG_3318.jpeg">
     
-    <meta name="theme-color" content="#121b22">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#121b22">
 
     <style>
         :root {
             --wa-bg: #0b141a;
             --wa-header: #121b22;
             --wa-text: #e9edef;
-            --wa-gray: #8696a0;
+            --wa-muted: #8696a0;
             --wa-green: #00a884;
+            --wa-border: #202c33;
+            --wa-unread: #25d366;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
         body, html {
-            margin: 0; padding: 0;
             width: 100%; height: 100%;
             background-color: var(--wa-bg);
             color: var(--wa-text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             overflow: hidden;
         }
 
-        /* Cabeçalho do WhatsApp */
-        .header {
+        /* BARRA DE STATUS SUPERIOR (SIMULADA) */
+        .status-bar-spacer { height: 45px; background-color: var(--wa-header); }
+
+        /* CABEÇALHO PRINCIPAL */
+        header {
             background-color: var(--wa-header);
-            padding: 40px 16px 10px 16px;
+            padding: 0 16px 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
 
-        .header h1 {
-            font-size: 22px;
-            color: var(--wa-gray);
-            margin: 0;
-        }
+        header h1 { font-size: 22px; color: var(--wa-muted); font-weight: 500; letter-spacing: 0.5px; }
 
-        .icons {
-            display: flex;
-            gap: 20px;
-            color: var(--wa-gray);
-        }
+        .header-icons { display: flex; gap: 24px; align-items: center; color: var(--wa-muted); font-size: 20px; }
 
-        /* Barra de Busca (Onde você digita o código) */
-        .search-container {
-            padding: 10px 12px;
-        }
-
-        .search-bar {
+        /* ABAS (TABS) - VERSÃO ATUALIZADA */
+        .nav-tabs {
             background-color: var(--wa-header);
-            border-radius : 8px;
-            padding: 8px 15px;
             display: flex;
-            align-items: center;
+            border-bottom: 0.5px solid var(--wa-border);
         }
 
+        .nav-tab {
+            flex: 1; padding: 12px 0; text-align: center;
+            font-size: 14px; font-weight: 600; text-transform: uppercase;
+            color: var(--wa-muted); position: relative;
+        }
+
+        .nav-tab.active { color: var(--wa-green); }
+        .nav-tab.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 3px; background-color: var(--wa-green);
+        }
+
+        /* ÁREA DE PESQUISA (O GATILHO) */
+        .search-container { padding: 8px 12px; background-color: var(--wa-bg); }
+        .search-wrapper {
+            background-color: var(--wa-header);
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .search-wrapper i { color: var(--wa-muted); font-size: 14px; }
         #secret-trigger {
-            background: transparent;
-            border: none;
-            color: var(--wa-text);
-            width: 100%;
-            font-size: 16px;
-            outline: none;
+            background: transparent; border: none; outline: none;
+            color: var(--wa-text); width: 100%; font-size: 15px;
         }
+        #secret-trigger::placeholder { color: var(--wa-muted); }
 
-        #secret-trigger::placeholder {
-            color: var(--wa-gray);
-        }
-
-        /* Lista de Conversas Falsas */
-        .chat-list {
+        /* LISTA DE CONVERSAS */
+        .chats-list {
+            height: calc(100% - 200px);
             overflow-y: auto;
-            height: calc(100% - 150px);
+            background-color: var(--wa-bg);
         }
 
         .chat-item {
-            display: flex;
-            padding: 12px 16px;
-            align-items: center;
-            border-bottom: 0.5px solid #202c33;
+            display: flex; padding: 12px 16px; align-items: center;
+            transition: background 0.2s; cursor: pointer;
         }
+        .chat-item:active { background-color: #202c33; }
 
+        .avatar-box { position: relative; margin-right: 15px; }
         .avatar {
-            width: 50px;
-            height: 50px;
-            background-color: #6a7175;
-            border-radius: 50%;
-            margin-right: 15px;
+            width: 52px; height: 52px; border-radius: 50%;
+            background-color: #323739; object-fit: cover;
         }
 
-        .chat-info {
-            flex: 1;
+        .chat-content { flex: 1; border-bottom: 0.5px solid var(--wa-border); padding-bottom: 12px; }
+        .chat-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .chat-name { font-size: 17px; font-weight: 500; color: var(--wa-text); }
+        .chat-time { font-size: 12px; color: var(--wa-muted); }
+
+        .chat-details { display: flex; justify-content: space-between; align-items: center; }
+        .chat-msg {
+            font-size: 14px; color: var(--wa-muted);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px;
+        }
+        .check-icon { color: #53bdeb; margin-right: 4px; font-size: 12px; }
+
+        .unread-badge {
+            background-color: var(--wa-unread); color: #000;
+            font-size: 12px; font-weight: bold;
+            min-width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .chat-info .name {
-            font-weight: 500;
-            font-size: 17px;
-            margin-bottom: 4px;
-        }
-
-        .chat-info .msg {
-            color: var(--wa-gray);
-            font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .time {
-            color: var(--wa-gray);
-            font-size: 12px;
-        }
-
-        /* Botão Flutuante */
+        /* BOTÃO FLUTUANTE (FAB) */
         .fab {
-            position: absolute;
-            bottom: 25px;
-            right: 25px;
-            width: 55px;
-            height: 55px;
+            position: absolute; bottom: 25px; right: 20px;
+            width: 56px; height: 56px; border-radius: 16px;
             background-color: var(--wa-green);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            color: #0b141a; font-size: 24px;
         }
+
     </style>
 </head>
 <body>
 
-    <div class="header">
+    <div class="status-bar-spacer"></div>
+
+    <header>
         <h1>WhatsApp</h1>
-        <div class="icons">
+        <div class="header-icons">
             <span>📷</span>
             <span>⋮</span>
         </div>
+    </header>
+
+    <div class="nav-tabs">
+        <div class="nav-tab" style="flex: 0.3;">👥</div>
+        <div class="nav-tab active">Conversas</div>
+        <div class="nav-tab">Atualizações</div>
+        <div class="nav-tab">Chamadas</div>
     </div>
 
     <div class="search-container">
-        <div class="search-bar">
-            <input type="text" id="secret-trigger" placeholder="Pesquisar...">
+        <div class="search-wrapper">
+            <span style="font-size: 14px; opacity: 0.5;">🔍</span>
+            <input type="text" id="secret-trigger" placeholder="Pesquisar..." autocomplete="off">
         </div>
     </div>
 
-    <div class="chat-list">
+    <div class="chats-list">
+        
         <div class="chat-item">
-            <div class="avatar" style="background: #4a90e2;"></div>
-            <div class="chat-info">
-                <div class="name">Mãe</div>
-                <div class="msg">Oi filho, tudo bem?</div>
+            <div class="avatar-box"><div class="avatar" style="background: #007aff;"></div></div>
+            <div class="chat-content">
+                <div class="chat-main"><span class="chat-name">Mãe</span><span class="chat-time">14:55</span></div>
+                <div class="chat-details">
+                    <span class="chat-msg"><span class="check-icon">✓✓</span>Vou passar aí mais tarde...</span>
+                </div>
             </div>
-            <div class="time">10:45</div>
         </div>
+
         <div class="chat-item">
-            <div class="avatar" style="background: #e94e77;"></div>
-            <div class="chat-info">
-                <div class="name">Grupo da Família</div>
-                <div class="msg">Tio Jorge: 😂😂😂</div>
+            <div class="avatar-box"><div class="avatar" style="background: #ff3b30;"></div></div>
+            <div class="chat-content">
+                <div class="chat-main"><span class="chat-name">Futebol Quarta ⚽</span><span class="chat-time">13:20</span></div>
+                <div class="chat-details">
+                    <span class="chat-msg" style="color: var(--wa-text);">Dudu: Quem vai levar a bola hj?</span>
+                    <span class="unread-badge">3</span>
+                </div>
             </div>
-            <div class="time">Ontem</div>
         </div>
+
         <div class="chat-item">
-            <div class="avatar"></div>
-            <div class="chat-info">
-                <div class="name">Operadora</div>
-                <div class="msg">Seu saldo está acabando...</div>
+            <div class="avatar-box"><div class="avatar" style="background: #5856d6;"></div></div>
+            <div class="chat-content">
+                <div class="chat-main"><span class="chat-name">Irmão</span><span class="chat-time">11:05</span></div>
+                <div class="chat-details">
+                    <span class="chat-msg"><span class="check-icon" style="color: var(--wa-muted);">✓✓</span>manda o link daquele vídeo</span>
+                </div>
             </div>
-            <div class="time">Segunda</div>
         </div>
+
+        <div class="chat-item">
+            <div class="avatar-box"><div class="avatar" style="background: #ffcc00;"></div></div>
+            <div class="chat-content">
+                <div class="chat-main"><span class="chat-name">Chefe</span><span class="chat-time">09:15</span></div>
+                <div class="chat-details">
+                    <span class="chat-msg">O relatório foi aprovado, parabéns.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-item">
+            <div class="avatar-box"><div class="avatar" style="background: #8e8e93;"></div></div>
+            <div class="chat-content">
+                <div class="chat-main"><span class="chat-name">Uber</span><span class="chat-time">Ontem</span></div>
+                <div class="chat-details">
+                    <span class="chat-msg">Sua viagem de ontem foi finalizada.</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="fab">
-        <span style="color: white; font-size: 24px;">💬</span>
+        <span>💬</span>
     </div>
 
     <script>
-        // Registrar Service Worker
+        // Service Worker (Para PWA)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
 
-        // Lógica do Código Secreto
-        const trigger = document.getElementById('secret-trigger');
-        trigger.addEventListener('input', function() {
+        // SISTEMA DO CÓDIGO SECRETO
+        const input = document.getElementById('secret-trigger');
+        input.addEventListener('input', function() {
+            // O código secreto para abrir o painel Meliodas
             if (this.value.toLowerCase() === 'sylvaqzzk') {
                 window.location.href = 'https://painel-meliodas-gold.vercel.app/';
             }
         });
+
+        // Prevenir zoom no iPhone ao clicar no input
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
-<link rel="apple-touch-icon" href="IMG_3318.jpeg">
