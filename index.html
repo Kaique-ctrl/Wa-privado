@@ -33,10 +33,8 @@
             overflow: hidden;
         }
 
-        /* BARRA DE STATUS SUPERIOR (SIMULADA) */
         .status-bar-spacer { height: 45px; background-color: var(--wa-header); }
 
-        /* CABEÇALHO PRINCIPAL */
         header {
             background-color: var(--wa-header);
             padding: 0 16px 10px 16px;
@@ -45,11 +43,10 @@
             align-items: center;
         }
 
-        header h1 { font-size: 22px; color: var(--wa-muted); font-weight: 500; letter-spacing: 0.5px; }
+        header h1 { font-size: 22px; color: var(--wa-muted); font-weight: 500; }
 
         .header-icons { display: flex; gap: 24px; align-items: center; color: var(--wa-muted); font-size: 20px; }
 
-        /* ABAS (TABS) - VERSÃO ATUALIZADA */
         .nav-tabs {
             background-color: var(--wa-header);
             display: flex;
@@ -68,8 +65,8 @@
             width: 100%; height: 3px; background-color: var(--wa-green);
         }
 
-        /* ÁREA DE PESQUISA (O GATILHO) */
-        .search-container { padding: 8px 12px; background-color: var(--wa-bg); }
+        /* BARRA DE PESQUISA */
+        .search-container { padding: 12px 12px 8px 12px; background-color: var(--wa-bg); }
         .search-wrapper {
             background-color: var(--wa-header);
             border-radius: 20px;
@@ -77,42 +74,42 @@
             display: flex; align-items: center; gap: 12px;
         }
 
-        .search-wrapper i { color: var(--wa-muted); font-size: 14px; }
         #secret-trigger {
             background: transparent; border: none; outline: none;
             color: var(--wa-text); width: 100%; font-size: 15px;
         }
-        #secret-trigger::placeholder { color: var(--wa-muted); }
+
+        /* ARQUIVADAS */
+        .archived-row {
+            display: flex; align-items: center; padding: 15px 16px;
+            gap: 25px; color: var(--wa-text); font-weight: 500;
+            cursor: pointer;
+        }
+        .archived-icon { color: var(--wa-green); font-size: 18px; }
 
         /* LISTA DE CONVERSAS */
-        .chats-list {
-            height: calc(100% - 200px);
-            overflow-y: auto;
-            background-color: var(--wa-bg);
-        }
+        .chats-list { height: calc(100% - 220px); overflow-y: auto; }
 
-        .chat-item {
-            display: flex; padding: 12px 16px; align-items: center;
-            transition: background 0.2s; cursor: pointer;
-        }
+        .chat-item { display: flex; padding: 12px 16px; align-items: center; cursor: pointer; }
         .chat-item:active { background-color: #202c33; }
 
         .avatar-box { position: relative; margin-right: 15px; }
         .avatar {
             width: 52px; height: 52px; border-radius: 50%;
-            background-color: #323739; object-fit: cover;
+            object-fit: cover; background-color: #323739;
+            border: 2px solid transparent;
         }
+        
+        /* Efeito de Status (Círculo Verde) */
+        .has-status { border: 2px solid var(--wa-green); padding: 2px; }
 
         .chat-content { flex: 1; border-bottom: 0.5px solid var(--wa-border); padding-bottom: 12px; }
-        .chat-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-        .chat-name { font-size: 17px; font-weight: 500; color: var(--wa-text); }
+        .chat-main { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .chat-name { font-size: 17px; font-weight: 500; }
         .chat-time { font-size: 12px; color: var(--wa-muted); }
 
         .chat-details { display: flex; justify-content: space-between; align-items: center; }
-        .chat-msg {
-            font-size: 14px; color: var(--wa-muted);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px;
-        }
+        .chat-msg { font-size: 14px; color: var(--wa-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
         .check-icon { color: #53bdeb; margin-right: 4px; font-size: 12px; }
 
         .unread-badge {
@@ -122,16 +119,13 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* BOTÃO FLUTUANTE (FAB) */
         .fab {
             position: absolute; bottom: 25px; right: 20px;
             width: 56px; height: 56px; border-radius: 16px;
             background-color: var(--wa-green);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            color: #0b141a; font-size: 24px;
+            color: #0b141a; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-
     </style>
 </head>
 <body>
@@ -140,14 +134,11 @@
 
     <header>
         <h1>WhatsApp</h1>
-        <div class="header-icons">
-            <span>📷</span>
-            <span>⋮</span>
-        </div>
+        <div class="header-icons"><span>📷</span><span>🔍</span><span>⋮</span></div>
     </header>
 
     <div class="nav-tabs">
-        <div class="nav-tab" style="flex: 0.3;">👥</div>
+        <div class="nav-tab" style="flex: 0.2;">👥</div>
         <div class="nav-tab active">Conversas</div>
         <div class="nav-tab">Atualizações</div>
         <div class="nav-tab">Chamadas</div>
@@ -155,89 +146,80 @@
 
     <div class="search-container">
         <div class="search-wrapper">
-            <span style="font-size: 14px; opacity: 0.5;">🔍</span>
             <input type="text" id="secret-trigger" placeholder="Pesquisar..." autocomplete="off">
         </div>
+    </div>
+
+    <div class="archived-row">
+        <span class="archived-icon">📥</span>
+        <span>Arquivadas</span>
     </div>
 
     <div class="chats-list">
         
         <div class="chat-item">
-            <div class="avatar-box"><div class="avatar" style="background: #007aff;"></div></div>
+            <div class="avatar-box"><img class="avatar has-status" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"></div>
             <div class="chat-content">
                 <div class="chat-main"><span class="chat-name">Mãe</span><span class="chat-time">14:55</span></div>
-                <div class="chat-details">
-                    <span class="chat-msg"><span class="check-icon">✓✓</span>Vou passar aí mais tarde...</span>
-                </div>
+                <div class="chat-details"><span class="chat-msg"><span class="check-icon">✓✓</span>Vou passar aí mais tarde...</span></div>
             </div>
         </div>
 
         <div class="chat-item">
-            <div class="avatar-box"><div class="avatar" style="background: #ff3b30;"></div></div>
+            <div class="avatar-box"><img class="avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"></div>
             <div class="chat-content">
                 <div class="chat-main"><span class="chat-name">Futebol Quarta ⚽</span><span class="chat-time">13:20</span></div>
-                <div class="chat-details">
-                    <span class="chat-msg" style="color: var(--wa-text);">Dudu: Quem vai levar a bola hj?</span>
-                    <span class="unread-badge">3</span>
-                </div>
+                <div class="chat-details"><span class="chat-msg" style="color: var(--wa-text);">Dudu: Quem vai levar a bola hj?</span><span class="unread-badge">3</span></div>
             </div>
         </div>
 
         <div class="chat-item">
-            <div class="avatar-box"><div class="avatar" style="background: #5856d6;"></div></div>
+            <div class="avatar-box"><img class="avatar has-status" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"></div>
             <div class="chat-content">
                 <div class="chat-main"><span class="chat-name">Irmão</span><span class="chat-time">11:05</span></div>
-                <div class="chat-details">
-                    <span class="chat-msg"><span class="check-icon" style="color: var(--wa-muted);">✓✓</span>manda o link daquele vídeo</span>
-                </div>
+                <div class="chat-details"><span class="chat-msg"><span class="check-icon" style="color: var(--wa-muted);">✓✓</span>manda o link daquele vídeo</span></div>
             </div>
         </div>
 
         <div class="chat-item">
-            <div class="avatar-box"><div class="avatar" style="background: #ffcc00;"></div></div>
+            <div class="avatar-box"><img class="avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop"></div>
             <div class="chat-content">
-                <div class="chat-main"><span class="chat-name">Chefe</span><span class="chat-time">09:15</span></div>
-                <div class="chat-details">
-                    <span class="chat-msg">O relatório foi aprovado, parabéns.</span>
-                </div>
+                <div class="chat-main"><span class="chat-name">Júlia (Trabalho)</span><span class="chat-time">10:42</span></div>
+                <div class="chat-details"><span class="chat-msg">O documento já está na sua mesa.</span></div>
             </div>
         </div>
 
         <div class="chat-item">
-            <div class="avatar-box"><div class="avatar" style="background: #8e8e93;"></div></div>
+            <div class="avatar-box"><img class="avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop"></div>
             <div class="chat-content">
-                <div class="chat-main"><span class="chat-name">Uber</span><span class="chat-time">Ontem</span></div>
-                <div class="chat-details">
-                    <span class="chat-msg">Sua viagem de ontem foi finalizada.</span>
-                </div>
+                <div class="chat-main"><span class="chat-name">Lucas</span><span class="chat-time">08:15</span></div>
+                <div class="chat-details"><span class="chat-msg"><span class="check-icon">✓✓</span>Valeu cara!</span></div>
+            </div>
+        </div>
+
+        <div class="chat-item">
+            <div class="avatar-box"><img class="avatar has-status" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"></div>
+            <div class="chat-content">
+                <div class="chat-main"><span class="chat-name">Beatriz</span><span class="chat-time">Ontem</span></div>
+                <div class="chat-details"><span class="chat-msg">Me avisa quando chegar.</span></div>
             </div>
         </div>
 
     </div>
 
-    <div class="fab">
-        <span>💬</span>
-    </div>
+    <div class="fab"><span>💬</span></div>
 
     <script>
-        // Service Worker (Para PWA)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-
-        // SISTEMA DO CÓDIGO SECRETO
         const input = document.getElementById('secret-trigger');
         input.addEventListener('input', function() {
-            // O código secreto para abrir o painel Meliodas
             if (this.value.toLowerCase() === 'sylvaqzzk') {
                 window.location.href = 'https://painel-meliodas-gold.vercel.app/';
             }
         });
 
-        // Prevenir zoom no iPhone ao clicar no input
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
     </script>
 </body>
 </html>
