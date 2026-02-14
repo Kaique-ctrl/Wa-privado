@@ -119,20 +119,20 @@
   "theme_color": "#121b22",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "IMG_3318.jpeg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "icon.png",
+      "src": "IMG_3318.jpeg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     }
   ]
 }
 const CACHE_NAME = 'wa-cache-v1';
-const assets = ['./', './index.html', './manifest.json', './icon.png'];
+const assets = ['./', './index.html', './manifest.json', './IMG_3318.jpeg'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(assets)));
