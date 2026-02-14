@@ -141,3 +141,207 @@ self.addEventListener('install', (e) => {
 self.addEventListener('fetch', (e) => {
   e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
 });
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsApp</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="IMG_3318.jpeg">
+    
+    <meta name="theme-color" content="#121b22">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        :root {
+            --wa-bg: #0b141a;
+            --wa-header: #121b22;
+            --wa-text: #e9edef;
+            --wa-gray: #8696a0;
+            --wa-green: #00a884;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: var(--wa-bg);
+            color: var(--wa-text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Cabeçalho do WhatsApp */
+        .header {
+            background-color: var(--wa-header);
+            padding: 40px 16px 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            color: var(--wa-gray);
+            margin: 0;
+        }
+
+        .icons {
+            display: flex;
+            gap: 20px;
+            color: var(--wa-gray);
+        }
+
+        /* Barra de Busca (Onde você digita o código) */
+        .search-container {
+            padding: 10px 12px;
+        }
+
+        .search-bar {
+            background-color: var(--wa-header);
+            border-radius : 8px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        #secret-trigger {
+            background: transparent;
+            border: none;
+            color: var(--wa-text);
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #secret-trigger::placeholder {
+            color: var(--wa-gray);
+        }
+
+        /* Lista de Conversas Falsas */
+        .chat-list {
+            overflow-y: auto;
+            height: calc(100% - 150px);
+        }
+
+        .chat-item {
+            display: flex;
+            padding: 12px 16px;
+            align-items: center;
+            border-bottom: 0.5px solid #202c33;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background-color: #6a7175;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-info .name {
+            font-weight: 500;
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .chat-info .msg {
+            color: var(--wa-gray);
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .time {
+            color: var(--wa-gray);
+            font-size: 12px;
+        }
+
+        /* Botão Flutuante */
+        .fab {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            background-color: var(--wa-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>WhatsApp</h1>
+        <div class="icons">
+            <span>📷</span>
+            <span>⋮</span>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="secret-trigger" placeholder="Pesquisar...">
+        </div>
+    </div>
+
+    <div class="chat-list">
+        <div class="chat-item">
+            <div class="avatar" style="background: #4a90e2;"></div>
+            <div class="chat-info">
+                <div class="name">Mãe</div>
+                <div class="msg">Oi filho, tudo bem?</div>
+            </div>
+            <div class="time">10:45</div>
+        </div>
+        <div class="chat-item">
+            <div class="avatar" style="background: #e94e77;"></div>
+            <div class="chat-info">
+                <div class="name">Grupo da Família</div>
+                <div class="msg">Tio Jorge: 😂😂😂</div>
+            </div>
+            <div class="time">Ontem</div>
+        </div>
+        <div class="chat-item">
+            <div class="avatar"></div>
+            <div class="chat-info">
+                <div class="name">Operadora</div>
+                <div class="msg">Seu saldo está acabando...</div>
+            </div>
+            <div class="time">Segunda</div>
+        </div>
+    </div>
+
+    <div class="fab">
+        <span style="color: white; font-size: 24px;">💬</span>
+    </div>
+
+    <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        // Lógica do Código Secreto
+        const trigger = document.getElementById('secret-trigger');
+        trigger.addEventListener('input', function() {
+            if (this.value.toLowerCase() === 'sylvaqzzk') {
+                window.location.href = 'https://painel-meliodas-gold.vercel.app/';
+            }
+        });
+    </script>
+</body>
+</html>
+<link rel="apple-touch-icon" href="IMG_3318.jpeg">
